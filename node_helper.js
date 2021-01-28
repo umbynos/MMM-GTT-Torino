@@ -1,7 +1,7 @@
 /* Magic Mirror
  * Node Helper: MMM-GTT-Torino
  *
- * By 
+ * By Umberto Baldi
  * MIT Licensed.
  */
 

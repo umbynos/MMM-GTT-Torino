@@ -3,7 +3,7 @@
 /* Magic Mirror
  * Module: MMM-GTT-Torino
  *
- * By 
+ * By Umberto Baldi
  * MIT Licensed.
  */
 
