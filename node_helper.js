@@ -19,28 +19,13 @@ module.exports = NodeHelper.create({
 	 * argument payload mixed - The payload of the notification.
 	 */
 	socketNotificationReceived: function (notification, payload) {
-		console.log("-------------------------")
-		console.log("notification received")
-		console.log("---------------------")
-		if (notification === "MMM-GTT-Torino-NOTIFICATION_TEST") {
-			console.log("Working notification system. Notification:", notification, "payload: ", payload);
-			// Send notification
-			this.sendNotificationTest(this.anotherFunction()); //Is possible send objects :)
-		}
+		console.log("Working notification system. Notification:", notification, "payload: ", payload)
 		if (notification === 'CONFIG') {
-			console.log("----------------------------")
-			console.log(payload)
-			console.log("----------------------------")
-			this.sendSocketNotification("Test", 1);
 			this.config = payload;
 			this.getData();
 		}
 	},
-
-	// Example function send notification test
-	sendNotificationTest: function (payload) {
-		this.sendSocketNotification("MMM-GTT-Torino-NOTIFICATION_TEST", payload);
-	},
+	requiresVersion: "2.1.0",
 
 	// this you can create extra routes for your module
 	extraRoutes: function () {
@@ -52,11 +37,12 @@ module.exports = NodeHelper.create({
 		});
 	},
 
-	// Test another function
-	anotherFunction: function () {
-		return { date: new Date() };
-	},
-
+	/*
+	 * getData
+	 * function example return data and show it in the module wrapper
+	 * get a URL request
+	 *
+	 */
 	getData: function () {
 		var self = this;
 		var urlApi = "https://gpa.madbob.org/query.php?stop=";
@@ -66,16 +52,13 @@ module.exports = NodeHelper.create({
 				method: "GET",
 			}
 
-			console.log("DEBUG REQUEST")
-			console.log(req)
-
 			request(req, function (error, response, body) {
-				console.log(response)
-				console.log(error)
+				console.log(body)
 				if (!error && response.statusCode == 200) {
 					self.sendSocketNotification("STOPS", body);
 				}
 				else {
+					console.error(error)
 					self.sendSocketNotification("ERROR", "In TIME request with status code: " + response.statusCode);
 				}
 			})

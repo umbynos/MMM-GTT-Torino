@@ -9,7 +9,7 @@
 
 Module.register("MMM-GTT-Torino", {
 	defaults: {
-		updateInterval: 60000,
+		updateInterval: 60000, // every minute
 		retryDelay: 5000,
 		stops: [40, 597, 644],
 		lines: [9, 33, "59/"],
@@ -27,15 +27,6 @@ Module.register("MMM-GTT-Torino", {
 
 		this.sendSocketNotification('CONFIG', this.config);
 	},
-
-	/*
-	 * getData
-	 * function example return data and show it in the module wrapper
-	 * get a URL request
-	 *
-	 */
-
-
 
 	/* scheduleUpdate()
 	 * Schedule next update.
@@ -80,7 +71,7 @@ Module.register("MMM-GTT-Torino", {
 		if (this.dataNotification) {
 			var wrapperDataNotification = document.createElement("div");
 			// translations  + datanotification
-			wrapperDataNotification.innerHTML = this.translate("UPDATE") + ": " + this.dataNotification.date;
+			wrapperDataNotification.innerHTML = this.translate("UPDATE") + ": " + this.dataNotification;
 
 			wrapper.appendChild(wrapperDataNotification);
 		}
@@ -99,10 +90,9 @@ Module.register("MMM-GTT-Torino", {
 
 	// Load translations files
 	getTranslations: function () {
-		//FIXME: This can be load a one file javascript definition
 		return {
 			en: "translations/en.json",
-			es: "translations/es.json"
+			it: "translations/it.json"
 		};
 	},
 
@@ -119,20 +109,12 @@ Module.register("MMM-GTT-Torino", {
 
 	// socketNotificationReceived from helper
 	socketNotificationReceived: function (notification, payload) {
-		console.log("--------------------")
-		console.log(notification)
-		console.log(payload)
-		console.log("--------------------")
-		if (notification === "MMM-GTT-Torino-NOTIFICATION_TEST") {
-			// set dataNotification
-			this.dataNotification = payload;
-			this.updateDom();
-		}
-
 		if (notification === "STOPS") {
-			console.log("--------------------")
 			console.log(payload)
 			console.log("--------------------")
+			// set dataNotification
+			this.dataNotification = payload;
+			this.updateDom(1000);
 		}
 	},
 });

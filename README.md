@@ -2,7 +2,7 @@
 
 This is a module for the [MagicMirror²](https://github.com/MichMich/MagicMirror/).
 
-Todo: Insert description here!
+This module shows stops, lines and schedules of the public trasport in Turin (GTT)
 
 ## Using the module
 
@@ -12,6 +12,7 @@ var config = {
     modules: [
         {
             module: 'MMM-GTT-Torino',
+            position: "top_left",
             config: {
                 // See below for configurable options
             }
