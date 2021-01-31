@@ -16,5 +16,7 @@
     "stylelint-config-standard": "latest",
     "time-grunt": "latest"
   },
-  "dependencies": {}
+  "dependencies": {
+    "request": "^2.88.2"
+  }
 }
