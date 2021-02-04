@@ -13,6 +13,7 @@ Module.register("MMM-GTT-Torino", {
 		retryDelay: 5000,
 		stops: [40, 597, 644],
 		lines: [9, 33, "59/"],
+		useHeader: true,
 	},
 
 	requiresVersion: "2.1.0", // Required version of MagicMirror
@@ -51,19 +52,10 @@ Module.register("MMM-GTT-Torino", {
 
 		// create element wrapper for show into the module
 		var wrapper = document.createElement("div");
-		// If this.dataRequest is not empty
-		if (this.dataRequest) {
-			var wrapperDataRequest = document.createElement("div");
-			// check format https://jsonplaceholder.typicode.com/posts/1
-			wrapperDataRequest.innerHTML = this.dataRequest.title;
 
-			var labelDataRequest = document.createElement("label");
-			// Use translate function
-			//             this id defined in translations files
-			labelDataRequest.innerHTML = this.translate("TITLE");
-
-
-			wrapper.appendChild(labelDataRequest);
+		if (this.config.useHeader != false) {
+			var wrapperDataRequest = document.createElement("header");
+			wrapperDataRequest.innerHTML = this.name; // the name of the module
 			wrapper.appendChild(wrapperDataRequest);
 		}
 
