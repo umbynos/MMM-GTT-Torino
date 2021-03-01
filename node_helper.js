@@ -46,6 +46,9 @@ module.exports = NodeHelper.create({
 	getData: function () {
 		var self = this;
 		var urlApi = "https://gpa.madbob.org/query.php?stop=";
+		var result = [];
+		var bodyFiltered = [];
+		var lines = this.config.lines;
 		this.config.stops.forEach(function (stop) {
 			var req = {
 				url: urlApi + stop,
@@ -53,9 +56,20 @@ module.exports = NodeHelper.create({
 			}
 
 			request(req, function (error, response, body) {
-				console.log(body)
 				if (!error && response.statusCode == 200) {
-					self.sendSocketNotification("STOPS", body);
+					// console.log(body);
+					const body1 = JSON.parse(body);
+					bodyFiltered = body1.filter(function(item) {
+						console.log(lines);
+						console.log(item.line);
+						console.log(lines.includes(item.line)); //false??
+						return lines.includes(item.line);
+					})
+					//  => lines.includes(item.line)); // TODO does not work
+					console.log(body1); // [{ line: '16', hour: '', realtime: 'true' },{ line: '16', hour: '', realtime: 'true' }]
+					console.log(typeof(body1[0])); // object
+					console.log(bodyFiltered); // [] empty dunno why
+					result.push({'stop' : stop, 'timetable' : bodyFiltered});
 				}
 				else {
 					console.error(error)
@@ -63,7 +77,7 @@ module.exports = NodeHelper.create({
 				}
 			})
 		})
-
+		self.sendSocketNotification("STOPS", result);
 		setTimeout(function () { self.getData(); }, this.config.updateInterval);
 	}
 });
