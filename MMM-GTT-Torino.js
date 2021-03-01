@@ -11,8 +11,8 @@ Module.register("MMM-GTT-Torino", {
 	defaults: {
 		updateInterval: 60000, // every minute
 		retryDelay: 5000,
-		stops: [40, 597, 644],
-		lines: [9, 33, "59/"],
+		stops: [40, 597, 644], // TODO format and add config.ini
+		lines: [9, 33, "59/"], // TODO format and add config.ini
 		useHeader: true,
 	},
 
@@ -69,6 +69,28 @@ Module.register("MMM-GTT-Torino", {
 		}
 		return wrapper;
 	},
+
+	//   createTable([["row 1, cell 1", "row 1, cell 2"], ["row 2, cell 1", "row 2, cell 2"]]); https://stackoverflow.com/questions/15164655/generate-html-table-from-2d-javascript-array
+	createTable: function (tableData) {
+		var table = document.createElement('table');
+		var tableBody = document.createElement('tbody');
+	  
+		tableData.forEach(function(rowData) {
+		  var row = document.createElement('tr');
+	  
+		  rowData.forEach(function(cellData) {
+			var cell = document.createElement('td');
+			cell.appendChild(document.createTextNode(cellData));
+			row.appendChild(cell);
+		  });
+	  
+		  tableBody.appendChild(row);
+		});
+	  
+		table.appendChild(tableBody);
+		document.body.appendChild(table);
+	},
+	  
 
 	getScripts: function () {
 		return [];
