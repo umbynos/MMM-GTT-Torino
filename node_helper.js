@@ -48,7 +48,7 @@ module.exports = NodeHelper.create({
 		var urlApi = "https://gpa.madbob.org/query.php?stop=";
 		var result = [];
 		var bodyFiltered = [];
-		var lines = this.config.lines;
+		var lines = this.config.lines; // [ 9, 33, '59/' ]
 		this.config.stops.forEach(function (stop) {
 			var req = {
 				url: urlApi + stop,
@@ -59,17 +59,11 @@ module.exports = NodeHelper.create({
 				if (!error && response.statusCode == 200) {
 					// console.log(body);
 					const body1 = JSON.parse(body);
-					bodyFiltered = body1.filter(function(item) {
-						console.log(lines);
-						console.log(item.line);
-						console.log(lines.includes(item.line)); //false??
-						return lines.includes(item.line);
-					})
-					//  => lines.includes(item.line)); // TODO does not work
-					console.log(body1); // [{ line: '16', hour: '', realtime: 'true' },{ line: '16', hour: '', realtime: 'true' }]
-					console.log(typeof(body1[0])); // object
-					console.log(bodyFiltered); // [] empty dunno why
+					bodyFiltered = body1.filter(item => lines.includes(parseInt(item.line))); // TODO maybe convert to string
+					// console.log(body1); // [{ line: '16', hour: '', realtime: 'true' },{ line: '16', hour: '', realtime: 'true' }]
+					console.log(bodyFiltered);
 					result.push({'stop' : stop, 'timetable' : bodyFiltered});
+					console.log(result); // [{ stop: 40, timetable: [] },{ stop: 597, timetable: [ [Object], [Object], [Object] ] }]
 				}
 				else {
 					console.error(error)
